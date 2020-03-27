@@ -4,6 +4,7 @@
 #include <ctime>
 #include "windows.h"
 #include <forward_list>
+#include <string>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ enum Colors
 
 template<Colors txt = LightGray, Colors bg = Black> ostream& color(ostream& text);
 void rand_init_list(forward_list<int>& lst, int count);
+void user_init_list(forward_list<int>& lst, int count);
 
 void print_list(forward_list<int>& lst);
 
@@ -42,7 +44,11 @@ int main()
     setlocale(LC_ALL, "");//Кириллица в консоле
     remove_cur();//Не показывать курсор
     forward_list<int> lst;
-    rand_init_list(lst, 5);
+    int list_size = 0;
+
+    while(list_size <= 0) list_size = getValue<int>("Введите размер списка");
+    rand_init_list(lst, list_size);
+    //user_init_list(lst, list_size);
 
     print_list(lst);
     find_elem(lst);
@@ -105,6 +111,17 @@ void rand_init_list(forward_list<int>& lst, int count)
     lst.sort();
 }
 
+void user_init_list(forward_list<int>& lst, int count)
+{
+
+    for (size_t i = 0; i < count; i++)
+    {
+        lst.push_front(getValue<int>("Введите " + std::to_string(i) + " элемент"));
+    }
+
+    lst.sort();
+}
+
 void print_list(forward_list<int>& lst)
 {
     auto elem = lst.begin();
@@ -131,7 +148,7 @@ void find_elem(forward_list<int> lst)
         iter++;
     }
     if (isFind) cout << "Элемент c номером варианта(10) найден под индексом " << iter << "!" << endl;
-    else cout << "Элемент не найден" << endl;
+    else cout << "Элемент c номером варианта(10) не найден" << endl;
 }
 
 void find_more_than_average(forward_list<int> lst)
